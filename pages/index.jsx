@@ -50,7 +50,7 @@ export default function ApologyPage() {
   return (
     <>
       <Head>
-        <title>I'm Really Sorry, Ona 🌸</title>
+        <title>This one's just for you, Ona 🌸</title>
         <meta name="description" content="A heartfelt apology message" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="icon" href="/favicon.svg" />
