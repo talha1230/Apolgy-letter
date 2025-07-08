@@ -9,41 +9,189 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Quicksand', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  input, button, textarea {
+    font-size: 16px; /* Prevents zoom on focus */
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
+/* Custom scrollbar - hidden on mobile */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #cbd5e1, #94a3b8);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #94a3b8, #64748b);
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Ensure button focus states are accessible */
+/* Enhanced button focus states */
 button:focus {
-  outline: 2px solid #0ea5e9;
+  outline: 3px solid rgba(14, 165, 233, 0.5);
   outline-offset: 2px;
+}
+
+/* Improved touch targets for mobile */
+button {
+  min-height: 44px;
+  min-width: 44px;
 }
 
 /* Custom utilities */
 @layer utilities {
   .text-shadow-soft {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
+  
+  .text-shadow-glow {
+    text-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+  }
+  
+  .backdrop-blur-strong {
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(45deg, #ec4899, #8b5cf6, #3b82f6);
+    background-size: 300% 300%;
+    animation: gradient-shift 3s ease infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .name-glow {
+    animation: text-glow 2s ease-in-out infinite;
+  }
+  
+  .name-transition {
+    animation: name-transition 2s ease-in-out;
+  }
+  
+  .dancing-border {
+    background: linear-gradient(45deg, #f472b6, #a855f7, #3b82f6, #f472b6);
+    background-size: 400% 400%;
+    animation: border-dance 4s ease infinite;
+  }
+}
+
+/* Custom animations */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes text-glow {
+  0%, 100% { 
+    text-shadow: 0 0 5px rgba(236, 72, 153, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    text-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 25px rgba(147, 51, 234, 0.3);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes name-transition {
+  0% { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  25% { 
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  75% { 
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes border-dance {
+  0%, 100% { 
+    background-position: 0% 50%;
+    transform: rotate(0deg);
+  }
+  25% { 
+    background-position: 100% 50%;
+    transform: rotate(0.5deg);
+  }
+  50% { 
+    background-position: 200% 50%;
+    transform: rotate(0deg);
+  }
+  75% { 
+    background-position: 300% 50%;
+    transform: rotate(-0.5deg);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Mobile-specific animations */
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-bounce {
+    animation: mobile-bounce 2s ease-in-out infinite;
+  }
+}
+
+@keyframes mobile-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.02); }
+}
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
 }
