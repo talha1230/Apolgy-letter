@@ -1,350 +1,116 @@
-import AddToCalendar from "react-add-to-calendar";
-import QRCode from "qrcode.react";
-import useSWR from "swr";
+import Head from 'next/head'
 
-import Head from "@src/components/Head";
-import resolvePath from "@src/utils/resolvePath";
-import appConfig from "@src/config/app";
-import { useTranslation, defaultLocale } from "@src/i18n";
-import guestList from "./guest_list.json";
-
-const translateConfig = (appConfig, locale) => {
-  if (!locale || locale === defaultLocale) {
-    return appConfig
-  }
-  // Replace config with lang
-  const configLang = appConfig.lang[locale]
-  if (configLang === undefined) {
-    throw new Error("invalid locale: ", locale)
-  }
-  return { ...appConfig, ...configLang }
-}
-
-const ShowInvite = ({ currentUrl, guestListLastUpdatedAt, guest }) => {
-  const t = useTranslation(guest.locale)
-
-  // Initiate config variables
-  const { logo, ogTags, coupleInfo, venue, weddingDay, weddingDate, weddingTime, calendarInfo } = translateConfig(appConfig, guest.locale)
-  const { brideName, groomName, coupleNameFormat } = coupleInfo
-
-  const coupleNameStr = coupleNameFormat === 'GROOM_FIRST'
-    ? `${groomName} & ${brideName}`
-    : `${brideName} & ${groomName}`
-  const coupleName = coupleNameFormat === 'GROOM_FIRST'
-    ? (<>{groomName} <span>&amp;</span> {brideName}</>)
-    : (<>{brideName} <span>&amp;</span> {groomName}</>)
-
-  // Venue info
-  const venueBrief = `${venue.name}, ${venue.city}, ${venue.country}`
-  const weddingDateBrief = `${weddingDay}, ${weddingDate}`
-
-  // Event info
-  const eventTitle = `${coupleNameStr}'s Wedding`
-  let eventDescription = `${weddingDateBrief} at ${venue.name}, ${venue.city}`
-  if (guest.name) {
-    eventDescription = `Dear ${guest.name}, you are cordially invited to our wedding on ${weddingDate} at ${venue.name}. Looking forward to seeing you!`
-  }
-
-  // Calendar payload
-  const calendarEvent = {
-    title: eventTitle,
-    description: eventDescription,
-    location: `${venue.city}, ${venue.country}`,
-    startTime: calendarInfo.timeStartISO,
-    endTime: calendarInfo.timeEndISO
-  }
-
+export default function ApologyPage() {
   return (
-    <div>
-      <style jsx global>{`
-      a.react-add-to-calendar__button span {
-        cursor: pointer;
-        text-decoration: underline;
-      }
-      `}
-      </style>
-      <Head {...ogTags}
-        title={eventTitle}
-        description={eventDescription}
-        guestName={guest.name}
-        url={currentUrl}
-        date={weddingDateBrief}
-        modifiedTime={guestListLastUpdatedAt}
-        venue={venueBrief}
-        logo={resolvePath(ogTags.logo)}
-        author={resolvePath('/')}
-      />
-      < section className="header_area">
-        <div
-          id="home"
-          className="header_slider"
-        >
-          <div className="slick-list draggable">
-            <div className="slick-track" style={{ opacity: 1 }}>
-              <div
-                className="single_slider bg_cover d-flex align-items-center"
-                style={{
-                  height: '100vh'
-                }}
-              >
-                <div className="container">
-                  <div className="row justify-content-center">
-                    <div className="col-lg-12">
-                      <div className="slider_content text-center" style={{ paddingTop: 0 }}>
-                        <img style={{ maxHeight: 60, margin: 25, marginTop: 0 }} src={logo.headerLogo} alt="logo" />
-                        <h5
-                          className="slider_sub_title"
-                          data-animation="fadeInUp"
-                          data-delay="0.2s"
-                          style={{ animationDelay: '0.2s' }}
-                        >{t('siteIntro')}</h5>
-                        <h2
-                          className="slider_title"
-                          data-animation="fadeInUp"
-                          data-delay="0.7s"
-                          style={{ animationDelay: '0.7s' }}
-                        >
-                          {coupleName}
-                        </h2>
-                        <span
-                          className="location"
-                          data-animation="fadeInUp"
-                          data-delay="1s"
-                          style={{ animationDelay: '1s' }}
-                        >{venue.name}, {venue.city}, {venue.country}.</span>
-                      </div>
-                    </div>
-                  </div>
+    <>
+      <Head>
+        <title>I'm Really Sorry, Ona 🌸</title>
+        <meta name="description" content="A heartfelt apology message" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Merriweather:wght@300;400;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+      </Head>
+
+      <div className="min-h-screen bg-gradient-to-br from-blue-soft-50 via-white to-blue-soft-100 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute top-10 left-10 text-6xl animate-float opacity-20">🌸</div>
+        <div className="absolute top-20 right-20 text-4xl animate-gentle-bounce opacity-30" style={{animationDelay: '1s'}}>🌺</div>
+        <div className="absolute bottom-20 left-20 text-5xl animate-float opacity-25" style={{animationDelay: '2s'}}>🌼</div>
+        <div className="absolute bottom-32 right-16 text-3xl animate-gentle-bounce opacity-20" style={{animationDelay: '0.5s'}}>🌻</div>
+        <div className="absolute top-1/2 left-5 text-4xl animate-float opacity-15" style={{animationDelay: '1.5s'}}>🌷</div>
+        <div className="absolute top-1/3 right-8 text-3xl animate-gentle-bounce opacity-25" style={{animationDelay: '3s'}}>🌸</div>
+
+        {/* Floating petals effect */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute animate-float opacity-10"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 4}s`,
+                animationDuration: `${3 + Math.random() * 2}s`,
+              }}
+            >
+              🌸
+            </div>
+          ))}
+        </div>
+
+        {/* Main content */}
+        <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+          <div className="w-full max-w-2xl mx-auto">
+            {/* Main card */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-12 border border-blue-soft-200/50 animate-fade-in">
+              {/* Header with flowers */}
+              <div className="text-center mb-8">
+                <div className="flex justify-center items-center gap-4 mb-4">
+                  <span className="text-4xl animate-gentle-bounce">🌸</span>
+                  <span className="text-5xl animate-float" style={{animationDelay: '0.5s'}}>🌺</span>
+                  <span className="text-4xl animate-gentle-bounce" style={{animationDelay: '1s'}}>🌸</span>
                 </div>
+                
+                <h1 className="text-4xl md:text-5xl font-handwritten font-bold text-blue-soft-800 mb-2">
+                  I'm Really Sorry, Ona
+                </h1>
+                <div className="text-6xl">🌸</div>
               </div>
+
+              {/* Message body */}
+              <div className="space-y-6 text-center">
+                <p className="text-lg md:text-xl leading-relaxed text-gray-700 font-serif-soft font-light">
+                  I know I messed up. It was never my intention to hurt you or scare you. I just wanted to make you smile in my own dumb way. You mean a lot to me—and I don't want a silly moment to ruin something that actually matters.
+                </p>
+
+                <div className="flex justify-center">
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-blue-soft-300 to-transparent"></div>
+                </div>
+
+                <p className="text-lg md:text-xl leading-relaxed text-gray-700 font-serif-soft font-light">
+                  I won't lie and say I'll never hurt you—but I will promise this: sometimes I'll hurt you, and sometimes you'll hurt me… but we'll talk, we'll learn, and we'll grow through it together. That's how something real is built.
+                </p>
+
+                <div className="flex justify-center">
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-blue-soft-300 to-transparent"></div>
+                </div>
+
+                <p className="text-lg md:text-xl leading-relaxed text-gray-700 font-serif-soft font-light">
+                  I hope you can forgive me.
+                </p>
+              </div>
+
+              {/* Button */}
+              <div className="text-center mt-10">
+                <button className="bg-gradient-to-r from-blue-soft-400 to-blue-soft-500 hover:from-blue-soft-500 hover:to-blue-soft-600 text-white font-soft font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 active:scale-95">
+                  <span className="flex items-center gap-2">
+                    It's Okay
+                    <span className="animate-gentle-bounce">💙</span>
+                  </span>
+                </button>
+              </div>
+
+              {/* Bottom decoration */}
+              <div className="flex justify-center items-center gap-3 mt-8 opacity-60">
+                <span className="text-2xl animate-float">🌸</span>
+                <span className="text-xl animate-gentle-bounce" style={{animationDelay: '0.5s'}}>🌺</span>
+                <span className="text-2xl animate-float" style={{animationDelay: '1s'}}>🌼</span>
+                <span className="text-xl animate-gentle-bounce" style={{animationDelay: '1.5s'}}>🌻</span>
+                <span className="text-2xl animate-float" style={{animationDelay: '2s'}}>🌸</span>
+              </div>
+            </div>
+
+            {/* Subtle attribution */}
+            <div className="text-center mt-6">
+              <p className="text-sm text-gray-400 font-soft">
+                Made with 💙 for forgiveness
+              </p>
             </div>
           </div>
         </div>
-      </section>
-
-      <section id="coming_soon" className="coming_soon_area pt-20 pb-70">
-        <div className="coming_soon_shape_1" style={{ zIndex: 1 }}>
-          <img src="/assets/images/shape-1.png" alt="shape" />
-        </div>
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-4">
-              <div
-                className="section_title pt-50 wow fadeIn"
-                data-wow-duration="1.3s"
-                data-wow-delay="0.2s"
-                style={{ visibility: 'visible', animationDuration: '1.3s', animationDelay: '0.2s', animationName: 'fadeIn' }}
-              >
-                <h3 className="title">{t("eventDate")}:</h3>
-                <p>{weddingDateBrief}</p>
-                <div style={{
-                  paddingTop: '0.2rem',
-                  paddingBottom: '0.2rem',
-                }}>
-                  <AddToCalendar event={calendarEvent} buttonLabel={t("btnAddToMyCalendar")} />
-                </div>
-                <img src="/assets/images/section_shape.png" alt="Shape" />
-              </div>
-            </div>
-            <div className="col-lg-8">
-              <div
-                className="wow fadeIn"
-                data-wow-duration="1.3s"
-                data-wow-delay="0.6s"
-                style={{ visibility: 'visible', animationDuration: '1.3s', animationDelay: '0.6s', animationName: 'fadeIn' }}
-              >
-                <div className="coming_soon_count d-flex justify-content-end pt-20">
-                  <div
-                    style={{ marginRight: 20, width: 360, height: 138, backgroundColor: 'transparent' }}
-                    className="single_count d-flex align-items-center justify-content-center mt-30"
-                  >
-                    <div className="count_content" style={{ zIndex: 1, paddingTop: 20 }}>
-                      <a href={venue.mapUrl}>
-                        <img style={{ borderRadius: 5 }} src="/assets/images/oval-hotel-map-horizontal.png" alt="oval hotel map" />
-                      </a>
-                      <a href={venue.mapUrl} style={{
-                        maxWidth: '75vw',
-                        overflowX: 'hidden',
-                        textOverflow: 'ellipsis',
-                        marginTop: 10,
-                      }}>
-                        {venue.mapUrl}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="coming_soon_shape_2">
-          <img src="/assets/images/shape-2.png" alt="shape" />
-        </div>
-      </section>
-
-      <section id="contact" className="contact_area">
-        <div className="container">
-          <div
-            className="contact_wrapper wow fadeInUpBig"
-            data-wow-duration="1.3s"
-            data-wow-delay="0.4s"
-            style={{ paddingBottom: 30, boxShadow: 'none', visibility: 'visible', animationDuration: '1.3s', animationDelay: '0.4s', animationName: 'fadeInUp' }}
-          >
-            <div className="row justify-content-center">
-              <div className="col-lg-9">
-                <div className="section_title text-center pb-30">
-                  {guest.name && (<div style={{
-                    textAlign: 'center',
-                    maxWidth: 400,
-                    margin: 'auto',
-                    paddingBottom: 20,
-                  }}>
-                    {t('invitationGreeting')}
-                    <p style={{ fontSize: '1.5rem' }}>{guest.name},</p>
-                  </div>
-                  )}
-                  <h3 className="title">{t('invitationIntro')}</h3>
-                  <div style={{
-                    textAlign: 'left',
-                    paddingTop: 20,
-                    paddingBottom: 20,
-                    maxWidth: 400,
-                    margin: 'auto',
-                  }}>
-                    <p style={{
-                      fontSize: '1rem',
-                      lineHeight: 'inherit',
-                      color: 'dimgrey',
-                      textAlign: t('invitationContentTextAlign')
-                    }}>
-                      <i>
-                        {t('invitationContent')}
-                        {t('invitationOutro') && !t('invitationOutro').startsWith("[missing") && (
-                          <>
-                            <br />
-                            <br />
-                            {t('invitationOutro')}
-                          </>
-                        )}
-                      </i>
-                    </p>
-                  </div>
-
-                  {appConfig.showQrCode && guest.name && (
-                    <div style={{ marginTop: 20, marginBottom: 35 }}>
-                      <QRCode value={guest.guestId} />
-                    </div>
-                  )}
-
-                  <p className="text">
-                    <a href={venue.mapUrl}
-                      style={{
-                        borderBottom: '0.2rem solid',
-                        marginBottom: 10,
-                      }}><b>{venue.name}</b></a>
-                    <br />{venue.addressLine1}
-                    <br />{venue.addressLine2}
-                    <br />{venue.country}.
-                  </p>
-                  <p className="text" style={{ marginTop: 10 }}>
-                    <b>{weddingDate} · {weddingTime}</b>
-                  </p>
-
-                  {t('invitationClosing') && !t('invitationClosing').startsWith("[missing") &&
-                    <p className="text" style={{
-                      fontStyle: "italic",
-                      maxWidth: 420,
-                      margin: 'auto',
-                      marginTop: 60,
-                    }}
-                      dangerouslySetInnerHTML={{ __html: t('invitationClosing') }}>
-                    </p>
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section >
-
-      {/* Footer section */}
-      <footer id="footer" className="footer_area">
-        <div className="footer_shape_1">
-          <img src="/assets/images/shape-1.png" alt="shape" />
-        </div>
-        <div className="container">
-          <div className="footer_widget pt-50 pb-10 text-center">
-            <div className="footer_logo">
-              {logo.footerLogo &&
-                (logo.footerLogoType === "mp4" ?
-                  <video height="140" autoPlay muted loop>
-                    <source src={logo.footerLogo} type="video/mp4" />
-                  </video>
-                  : <img src={logo.footerLogo} />
-                )}
-            </div>
-            <div className="footer_title">
-              <h3 className="title">
-                {coupleName}
-              </h3>
-            </div>
-          </div>
-        </div>
-        {appConfig.showBuiltWithInfo && (<div style={{
-          textAlign: 'center',
-          marginBottom: 40,
-        }}>
-          <small>
-            <a style={{ color: 'grey' }} href="https://github.com/wzulfikar/nextjs-wedding-invite">
-              Built with&nbsp;<object style={{ height: "0.5rem" }} data="/assets/images/heart.svg" type="image/svg+xml"></object>&nbsp;using NextJS
-            </a>
-          </small>
-        </div>)}
-      </footer>
-    </div >
+      </div>
+    </>
   )
-};
-
-ShowInvite.getInitialProps = (ctx) => {
-  const localeParams = ctx.query.lang || defaultLocale
-  const emptyGuestParams = {
-    guest: {
-      guestId: '',
-      name: '',
-      greeting: '',
-      locale: localeParams,
-    }
-  }
-
-  const currentUrl = resolvePath(ctx.req.url)
-  const guestId = ctx.query.u
-  if (!guestId) {
-    return {
-      currentUrl,
-      ...emptyGuestParams
-    }
-  }
-
-  const guestData = guestList.data
-  const guestListLastUpdatedAt = guestList.meta.lastUpdatedAt
-  const { name, greeting, locale } = guestData.filter(guest => guest.guestId === guestId)[0] || {}
-  if (!name) {
-    return {
-      currentUrl,
-      ...emptyGuestParams
-    }
-  }
-
-  return {
-    currentUrl,
-    guestListLastUpdatedAt,
-    guest: {
-      name,
-      greeting,
-      guestId,
-      locale: locale || localeParams,
-    }
-  }
 }
-
-export default ShowInvite
